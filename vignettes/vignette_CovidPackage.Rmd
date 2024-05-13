@@ -1,0 +1,92 @@
+---
+title: "vignette_CovidPackage"
+auther: "Fatima Danawar"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vignette_CovidPackage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE
+)
+```
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE)
+source("../R/Load_data.R")
+source("../R/dagelijkse_gevallen_mean.R")
+source("../R/Sterfte_gevallen_berekenen.R")
+source("../R/vergelijken_COVID19.R")
+source("../R/COVID19_plot.R")
+
+devtools::load_all()
+library(CovidPackage)
+library(dplyr)
+```
+
+# Inleiding
+Dit vignette presenteert de functies beschikbaar in het `CovidPackage`, een R-package dat is ontwikkeld om te helpen bij de analyse van COVID-19-gegevens. Elke functie in dit package heeft een specifieke rol bij het verwerken, analyseren of visualiseren van COVID-19-gerelateerde informatie.
+
+## Functie 1: Load COVID-19 Data
+
+De `load_covid_data()` functie laadt de COVID-19-gegevens van een opgegeven pad. Dit is de eerste stap in het analyseren van de COVID-19-gegevens.
+
+### Voorbeeld over deze functie
+
+```{r voorbeeld load functie}
+library(CovidPackage)
+data_covid <- CovidPackage::load_covid_data((here::here("data-raw/data_covid19.csv")))
+data_covid %>% head()
+```
+
+## Functie 2: Bereken het gemiddelde aantal dagelijkse gevallen per land
+
+De `bereken_gemiddelde_per_land` functie berekent het gemiddelde aantal dagelijkse gevallen per land op basis van de COVID-19-gegevens.
+
+### Voorbeeld over deze fuunctie
+
+```{r}
+gemiddelde_per_land <- CovidPackage::bereken_gemiddelde_per_land(data_covid)
+head(gemiddelde_per_land)
+```
+
+## Functie 3: Sterftegevallen berekenen
+
+De `calculate_mortality_rate` functie berekent het sterftecijfer voor COVID-19 per land.
+
+### Voorbeeld over deze functie
+```{r}
+mortality_data <- CovidPackage::calculate_mortality_rate(data_covid)
+head(mortality_data)
+```
+
+## Functie 4: Vergelijken COVID-19 invloed tussen twee landen
+
+De `vergelijken_invloed` functie vergelijkt de invloed van COVID-19 tussen twee opgegeven landen.
+
+### Voorbeeld over deze functie
+```{r}
+library(dplyr)
+vergelijken_data <- CovidPackage::vergelijken_invloed(data_covid, "Netherlands", "Belgium")
+print(vergelijken_data)
+```
+
+## Functie 5: Maak een plot van de dagelijkse gevallen voor een specifiek land
+De `plot_dagelijkse_gevallen` functie maakt een plot van de dagelijkse gevallen voor een specifiek land.
+
+### Voorbeeld over deze functie
+```{r}
+CovidPackage::plot_dagelijkse_gevallen(data_covid, "Netherlands")
+```
+
+# Conclusie
+Dit vignette heeft de belangrijkste functies in het CovidPackage geïntroduceerd, die kunnen worden gebruikt voor het laden, analyseren en visualiseren van COVID-19-gegevens. Met deze functies kunnen onderzoekers en beleidsmakers inzicht krijgen in de verspreiding en impact van COVID-19 op verschillende landen en regio's.
+
+
+
+
+
+
